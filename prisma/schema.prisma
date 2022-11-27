@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model book_info {
+  id       Int    @id @db.SmallInt
+  title    String @unique
+  chapters Int    @db.SmallInt
+  nkjv     nkjv[]
+}
+
+model nkjv {
+  id        Int       @id @default(autoincrement())
+  book      Int       @db.SmallInt
+  chapter   Int       @db.SmallInt
+  verse     Int       @db.SmallInt
+  t         String
+  book_info book_info @relation(fields: [book], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

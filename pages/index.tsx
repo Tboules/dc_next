@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetServerSideProps } from "next";
+import { getServerAuthSession } from "../src/server/common/get-server-auth-session";
 import { prisma } from "../src/server/db";
 
 interface Props {
@@ -18,6 +19,17 @@ export default function Home({ bookInfo, romans }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerAuthSession({ req, res });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+
   const bookInfo = await prisma.book_info.findMany();
   const romans = await prisma.nkjv.findMany({
     where: {
@@ -33,5 +45,5 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     },
   });
 
-  return { props: { bookInfo, romans } };
+  return { props: { bookInfo, romans, session } };
 };

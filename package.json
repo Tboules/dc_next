@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "local_db_backup": "pg_dump desert_collections > /Users/tony.boules/Desktop/pers_code/desert_collections/dc-web-app/db/backup.sql"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",

@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -22,23 +22,23 @@ model nkjv {
   verse     Int       @db.SmallInt
   t         String
   book_info book_info @relation(fields: [book], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  quotes    quote?
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -67,4 +67,43 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model desert_figure {
+  id            String              @id @db.Uuid
+  prefix        String?             @db.VarChar(10)
+  first_name    String?             @db.VarChar(50)
+  last_name     String?             @db.VarChar(50)
+  suffix        String?             @db.VarChar(100)
+  date_of_birth DateTime?           @db.Date
+  date_of_death DateTime?           @db.Date
+  region        String?             @db.VarChar(100)
+  date_added    DateTime            @db.Timestamp(6)
+  type          desert_figure_types @default(Author)
+  quotes        quote[]
+}
+
+model quote {
+  id                 String        @id @db.Uuid
+  quote              String
+  date_added         DateTime      @db.Timestamp(6)
+  century            Int?          @db.SmallInt
+  reference_text     String?       @db.VarChar(250)
+  bible_reference_id Int?          @unique
+  desert_figure_id   String        @db.Uuid
+  bible_refernce     nkjv?         @relation(fields: [bible_reference_id], references: [id])
+  desert_figure      desert_figure @relation(fields: [desert_figure_id], references: [id])
+  tags               tag[]         @relation("quoteTotag")
+}
+
+model tag {
+  id         String   @id @db.Uuid
+  title      String   @unique @db.VarChar(150)
+  date_added DateTime @db.Timestamp(6)
+  quotes     quote[]  @relation("quoteTotag")
+}
+
+enum desert_figure_types {
+  Author
+  Subject
 }

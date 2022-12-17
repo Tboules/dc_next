@@ -90,9 +90,9 @@ model quote {
   century            Int?          @db.SmallInt
   reference_text     String?       @db.VarChar(250)
   bible_reference_id Int?          @unique
-  desert_figure_id   String        @db.Uuid
+  desert_figure_id   String?        @db.Uuid
   bible_refernce     nkjv?         @relation(fields: [bible_reference_id], references: [id])
-  desert_figure      desert_figure @relation(fields: [desert_figure_id], references: [id])
+  desert_figure      desert_figure? @relation(fields: [desert_figure_id], references: [id])
   tags               tag[]         @relation("quoteTotag")
 }
 

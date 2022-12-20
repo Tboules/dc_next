@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 
 import { Inter } from "@next/font/google";
+import MainApplicationLayout from "../src/layout";
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({ subsets: ["latin"] });
@@ -13,9 +14,11 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <main className={inter.className}>
-        <Component {...pageProps} />
-      </main>
+      <MainApplicationLayout>
+        <main className={inter.className}>
+          <Component {...pageProps} />
+        </main>
+      </MainApplicationLayout>
     </SessionProvider>
   );
 }

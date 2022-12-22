@@ -13,6 +13,15 @@ module.exports = {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        dcRed: {
+          200: "#A12727",
+          300: "#CE6666",
+          400: "#BC5151",
+          500: "#AC3838",
+          600: "#A12727",
+        },
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

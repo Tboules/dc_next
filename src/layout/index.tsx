@@ -14,6 +14,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
+import Logo from "../assets/logos/Cross Logo.png";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
@@ -38,6 +40,14 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
+      {/*
+        This example requires updating your template:
+
+        ```
+        <html class="h-full bg-gray-100">
+        <body class="h-full">
+        ```
+      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -67,7 +77,7 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -94,7 +104,7 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300"
                       alt="Your Company"
                     />
                   </div>
@@ -106,18 +116,13 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-gray-100 text-gray-900"
-                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                              ? "bg-indigo-800 text-white"
+                              : "text-indigo-100 hover:bg-indigo-600",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-gray-500"
-                                : "text-gray-400 group-hover:text-gray-500",
-                              "mr-4 flex-shrink-0 h-6 w-6"
-                            )}
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
                             aria-hidden="true"
                           />
                           {item.name}
@@ -137,15 +142,11 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
         {/* Static sidebar for desktop */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5">
+          <div className="flex flex-grow flex-col overflow-y-auto bg-dcRed-400 pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
+              <Image className="h-8 w-auto" src={Logo} alt="Your Company" />
             </div>
-            <div className="mt-5 flex flex-grow flex-col">
+            <div className="mt-5 flex flex-1 flex-col">
               <nav className="flex-1 space-y-1 px-2 pb-4">
                 {navigation.map((item) => (
                   <a
@@ -153,18 +154,13 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                        ? "bg-dcRed-600 text-white"
+                        : "text-indigo-100 hover:bg-dcRed-500",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
-                      className={classNames(
-                        item.current
-                          ? "text-gray-500"
-                          : "text-gray-400 group-hover:text-gray-500",
-                        "mr-3 flex-shrink-0 h-6 w-6"
-                      )}
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-white"
                       aria-hidden="true"
                     />
                     {item.name}
@@ -260,7 +256,7 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
 
-          <main className="flex-1">
+          <main>
             <div className="py-6">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
                 {children}

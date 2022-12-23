@@ -1,34 +1,35 @@
-import React from "react";
-
-import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/20/solid";
 import {
   Bars3BottomLeftIcon,
   BellIcon,
+  BookOpenIcon,
   CalendarIcon,
-  ChartBarIcon,
   FolderIcon,
   HomeIcon,
   InboxIcon,
+  PaintBrushIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import React from "react";
+import { Fragment, useState } from "react";
+
 import Logo from "../assets/logos/Cross Logo.png";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+  { name: "Tags", href: "#", icon: UsersIcon, current: false },
+  { name: "Stories & Quotes", href: "#", icon: BookOpenIcon, current: false },
+  { name: "Icons", href: "#", icon: PaintBrushIcon, current: false },
+  { name: "Saints & Writers", href: "#", icon: UsersIcon, current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  // { name: "Settings", href: "#" },
+  { name: "Sign out", href: "/api/auth/signout" },
 ];
 
 function classNames(...classes: string[]) {
@@ -37,17 +38,10 @@ function classNames(...classes: string[]) {
 
 const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -77,7 +71,7 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-dcRed-400 pt-5 pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -102,9 +96,9 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                   </Transition.Child>
                   <div className="flex flex-shrink-0 items-center px-4">
-                    <img
+                    <Image
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300"
+                      src={Logo}
                       alt="Your Company"
                     />
                   </div>
@@ -116,13 +110,13 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-indigo-800 text-white"
-                              : "text-indigo-100 hover:bg-indigo-600",
+                              ? "bg-dcRed-600 text-white"
+                              : "text-white hover:bg-dcRed-500",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
-                            className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-white"
                             aria-hidden="true"
                           />
                           {item.name}
@@ -155,7 +149,7 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                     className={classNames(
                       item.current
                         ? "bg-dcRed-600 text-white"
-                        : "text-indigo-100 hover:bg-dcRed-500",
+                        : "text-white hover:bg-dcRed-500",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
@@ -206,10 +200,9 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
               <div className="ml-4 flex items-center md:ml-6">
                 <button
                   type="button"
-                  className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="inline-flex items-center rounded-full border border-transparent bg-dcRed-400 p-1 text-white shadow-sm hover:bg-dcRed-600 focus:outline-none focus:ring-2 focus:ring-dcRed-200 focus:ring-offset-2"
                 >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
 
                 {/* Profile dropdown */}
@@ -217,9 +210,11 @@ const MainApplicationLayout = ({ children }: { children: React.ReactNode }) => {
                   <div>
                     <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
-                      <img
+                      <Image
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        width={30}
+                        height={30}
+                        src={session?.user?.image ?? ""}
                         alt=""
                       />
                     </Menu.Button>

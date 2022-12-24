@@ -7,17 +7,19 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { Fragment, useState } from "react";
 import Logo from "../../assets/logos/Cross Logo.png";
 
 import { classNames } from "../../utils/tailwindHelpers";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Tags", href: "#", icon: UsersIcon, current: false },
-  { name: "Stories & Quotes", href: "#", icon: BookOpenIcon, current: false },
-  { name: "Icons", href: "#", icon: PaintBrushIcon, current: false },
-  { name: "Saints & Writers", href: "#", icon: UsersIcon, current: false },
+  { name: "Dashboard", href: "/", icon: HomeIcon },
+  { name: "Tags", href: "/tags", icon: UsersIcon },
+  { name: "Stories & Quotes", href: "/stories-quotes", icon: BookOpenIcon },
+  { name: "Icons", href: "/icons", icon: PaintBrushIcon },
+  { name: "Saints & Writers", href: "/figures", icon: UsersIcon },
 ];
 
 type Props = {
@@ -26,6 +28,8 @@ type Props = {
 };
 
 const MainLayoutSideNav = ({ sidebarOpen, setSidebarOpen }: Props) => {
+  const router = useRouter();
+
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -86,11 +90,11 @@ const MainLayoutSideNav = ({ sidebarOpen, setSidebarOpen }: Props) => {
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          router.pathname == item.href
                             ? "bg-dcRed-600 text-white"
                             : "text-white hover:bg-dcRed-500",
                           "group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -101,7 +105,7 @@ const MainLayoutSideNav = ({ sidebarOpen, setSidebarOpen }: Props) => {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -124,11 +128,11 @@ const MainLayoutSideNav = ({ sidebarOpen, setSidebarOpen }: Props) => {
           <div className="mt-5 flex flex-1 flex-col">
             <nav className="flex-1 space-y-1 px-2 pb-4">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className={classNames(
-                    item.current
+                    router.pathname == item.href
                       ? "bg-dcRed-600 text-white"
                       : "text-white hover:bg-dcRed-500",
                     "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
@@ -139,7 +143,7 @@ const MainLayoutSideNav = ({ sidebarOpen, setSidebarOpen }: Props) => {
                     aria-hidden="true"
                   />
                   {item.name}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

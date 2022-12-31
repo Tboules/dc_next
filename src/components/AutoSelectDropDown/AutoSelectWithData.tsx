@@ -1,6 +1,6 @@
 import { book_info } from "@prisma/client";
 import React from "react";
-import AutoSelectDropDown, { type AutoSelectItem } from ".";
+import AutoSelectDropDown, { type AutoSelectItem } from "./index";
 import useAutoSelectDropDown from "./useAutoSelectDropDown";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 const people: AutoSelectItem[] = [
   { id: 1, value: "Leslie Alexander" },
   { id: 2, value: "Tony Boules" },
+  { id: 3, value: "Tony B" },
 ];
 
 const AutoSelectWithData = ({ bookInfo }: Props) => {
@@ -32,7 +33,7 @@ const AutoSelectWithData = ({ bookInfo }: Props) => {
             </p>
           </div>
           <form action="" className="mt-6 w-60">
-            <AutoSelectDropDown {...autoSelectProps} label={"hello"} />
+            <AutoSelectDropDown {...autoSelectProps} label="Bible Books" />
           </form>
         </div>
       </div>

@@ -1,7 +1,5 @@
 import { trpc } from "../../utils/trpc";
-import AutoSelectDropDown, { AutoSelectItem } from "../AutoSelectDropDown";
-import AutoSelectWIthData from "../AutoSelectDropDown/AutoSelectWIthData";
-import useAutoSelectDropDown from "../AutoSelectDropDown/useAutoSelectDropDown";
+import AutoSelectWithData from "../AutoSelectDropDown/AutoSelectWithData";
 
 export default function BibleVersePicker() {
   const { data: bookInfo } = trpc.bible.getAllBookInfo.useQuery();
@@ -14,5 +12,5 @@ export default function BibleVersePicker() {
     );
   }
 
-  return <AutoSelectWIthData bookInfo={bookInfo} />;
+  return <AutoSelectWithData bookInfo={bookInfo} />;
 }

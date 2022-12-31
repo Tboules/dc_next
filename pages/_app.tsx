@@ -4,14 +4,12 @@ import { SessionProvider } from "next-auth/react";
 
 import { Inter } from "@next/font/google";
 import MainApplicationLayout from "../src/layout";
+import { trpc } from "../src/utils/trpc";
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({ subsets: ["latin"] });
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <SessionProvider session={session}>
       <MainApplicationLayout>
@@ -21,4 +19,6 @@ export default function App({
       </MainApplicationLayout>
     </SessionProvider>
   );
-}
+};
+
+export default trpc.withTRPC(App);

@@ -7,15 +7,10 @@ type Props = {
   bookInfo: book_info[];
 };
 
-const people: AutoSelectItem[] = [
-  { id: 1, value: "Leslie Alexander" },
-  { id: 2, value: "Tony Boules" },
-  { id: 3, value: "Tony B" },
-];
-
 const AutoSelectWithData = ({ bookInfo }: Props) => {
   const autoSelectProps = useAutoSelectDropDown({
-    items: people,
+    items: bookInfo,
+    valueKey: "title",
   });
 
   return (

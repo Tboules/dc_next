@@ -32,8 +32,6 @@ export default function AutoSelectDropDown({
           return item[valueKey].toLowerCase().includes(query.toLowerCase());
         });
 
-  console.log(label);
-
   return (
     <Combobox as="div" value={selectedItem} onChange={setSelectedItem}>
       <Combobox.Label className="block text-sm font-medium text-gray-700">

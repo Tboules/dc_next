@@ -1,5 +1,6 @@
+import { book_info } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
-import AutoSelectWithData from "../AutoSelectDropDown/AutoSelectWithData";
+import AutoSelectWithData from "./AutoSelectWithData";
 
 export default function BibleVersePicker() {
   const { data: bookInfo } = trpc.bible.getAllBookInfo.useQuery();

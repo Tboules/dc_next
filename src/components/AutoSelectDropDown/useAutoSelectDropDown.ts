@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type AutoSelectItem } from ".";
 
 type Props = {
@@ -9,11 +9,16 @@ type Props = {
 
 export default function useAutoSelectDropDown({
   items,
-  initiallySelected = items[0],
+  initiallySelected,
   valueKey,
 }: Props) {
-  const [selectedItem, setSelectedItem] =
-    useState<AutoSelectItem>(initiallySelected);
+  const [selectedItem, setSelectedItem] = useState<AutoSelectItem>(
+    initiallySelected ?? items[0]
+  );
+
+  useEffect(() => {
+    setSelectedItem(initiallySelected ?? items[0]);
+  }, [items]);
 
   return {
     items,

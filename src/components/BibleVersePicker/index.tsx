@@ -1,4 +1,3 @@
-import { book_info } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 import AutoSelectWithData from "./AutoSelectWithData";
 

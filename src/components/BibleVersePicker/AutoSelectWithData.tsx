@@ -1,5 +1,6 @@
 import { book_info } from "@prisma/client";
 import React, { useEffect, useMemo, useState } from "react";
+import { trpc } from "../../utils/trpc";
 import AutoSelectDropDown, {
   type AutoSelectItem,
 } from "../AutoSelectDropDown/index";
@@ -25,6 +26,10 @@ const AutoSelectWithData = ({ bookInfo }: Props) => {
     transformedBookInfo(bookInfo[0].chapters)
   );
 
+  const [verseArray, setVerseArray] = useState<AutoSelectItem[]>(
+    transformedBookInfo(2)
+  );
+
   const bookInfoSelectProps = useAutoSelectDropDown({
     items: bookInfo,
     valueKey: "title",
@@ -33,13 +38,33 @@ const AutoSelectWithData = ({ bookInfo }: Props) => {
 
   useMemo(() => {
     setChaptersArray(
-      transformedBookInfo(bookInfoSelectProps.selectedItem.chapters)
+      transformedBookInfo(bookInfoSelectProps.selectedItem?.chapters)
     );
   }, [bookInfoSelectProps.selectedItem]);
 
   const chaptersSelectProps = useAutoSelectDropDown({
     items: chaptersArray,
     valueKey: "value",
+  });
+
+  const { data: numberOfVerses } = trpc.bible.getVerseCount.useQuery({
+    book: bookInfoSelectProps.selectedItem?.id ?? 1,
+    chapter: chaptersSelectProps.selectedItem?.id ?? 1,
+  });
+
+  useEffect(() => {
+    setVerseArray(transformedBookInfo(numberOfVerses ?? 2));
+  }, [numberOfVerses]);
+
+  const verseSelectProps = useAutoSelectDropDown({
+    items: verseArray,
+    valueKey: "value",
+  });
+
+  const { data: verse } = trpc.bible.getVerse.useQuery({
+    book: bookInfoSelectProps.selectedItem.id,
+    chapter: chaptersSelectProps.selectedItem.id,
+    verse: verseSelectProps.selectedItem.id,
   });
 
   return (
@@ -52,17 +77,15 @@ const AutoSelectWithData = ({ bookInfo }: Props) => {
             </h3>
           </div>
           <div className="mt-4 max-w-xl text-md text-gray-700">
-            <p>
-              Change the email address you want associated with your account.
-            </p>
+            <p>{verse ? verse.t : "loading..."}</p>
           </div>
           <form action="" className="mt-6 gap-4 flex">
             <AutoSelectDropDown {...bookInfoSelectProps} label="Bible Books" />
             <AutoSelectDropDown {...chaptersSelectProps} label="Chapters" />
+            <AutoSelectDropDown {...verseSelectProps} label="Verse" />
           </form>
         </div>
       </div>
-      <pre>{JSON.stringify(bookInfo, null, 2)}</pre>
     </>
   );
 };

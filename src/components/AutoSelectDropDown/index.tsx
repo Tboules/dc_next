@@ -29,7 +29,10 @@ export default function AutoSelectDropDown({
     query === ""
       ? items
       : items.filter((item) => {
-          return item[valueKey].toLowerCase().includes(query.toLowerCase());
+          return item[valueKey]
+            .toString()
+            .toLowerCase()
+            .includes(query.toLowerCase());
         });
 
   return (
